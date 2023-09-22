@@ -19,9 +19,8 @@ public class UserController {
         this.roleRepository = roleRepository;
     }
 
-
     @GetMapping
-    public String index( Model model, @AuthenticationPrincipal User user_th) {
+    public String index(Model model, @AuthenticationPrincipal User user_th) {
         model.addAttribute("roles", roleRepository.findAll());
         model.addAttribute("user_th", user_th);
         return "user";

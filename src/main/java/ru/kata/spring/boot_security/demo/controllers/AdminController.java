@@ -28,13 +28,12 @@ public class AdminController {
 
     @GetMapping
     public String basePage(@ModelAttribute("newUser") User newUser, Model model,
-                        @AuthenticationPrincipal User thisUser) {
+                           @AuthenticationPrincipal User thisUser) {
         model.addAttribute("users", userService.getUsers());
         model.addAttribute("roles", roleRepository.findAll());
         model.addAttribute("thisUser", thisUser);
         return "index";
     }
-
 
     @PostMapping
     public String create(@ModelAttribute("user") User user) {
@@ -49,7 +48,6 @@ public class AdminController {
         userService.deleteUser(user.getId());
         return "redirect:/admin";
     }
-
 
     @PatchMapping("/{id}")
     public String updateUser(@ModelAttribute("user_u") User user) {

@@ -33,7 +33,6 @@ public class User implements UserDetails {
     private int age;
 
 
-
     @Column(name = "email", unique = true)
     private String email;
 
@@ -66,6 +65,7 @@ public class User implements UserDetails {
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
+
     public int getAge() {
         return age;
     }
@@ -132,7 +132,8 @@ public class User implements UserDetails {
     public String rolesToString(Set<Role> roles) {
         return roles.stream().map(role -> role.getName().replace("ROLE_", "")).collect(Collectors.joining(" "));
     }
-    public boolean checkRoleAdmin(Set <Role> roles) {
+
+    public boolean checkRoleAdmin(Set<Role> roles) {
         return roles.stream().map(Role::getName).collect(Collectors.toList()).contains("ROLE_ADMIN");
     }
 
