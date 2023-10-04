@@ -12,6 +12,7 @@ import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -49,12 +50,6 @@ public class UserServiceImp implements UserService {
         return userRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    public User showUser(Long id) {
-        Optional<User> userInDb = userRepository.findById(id);
-        return userInDb.orElse(new User());
-    }
 
     @Override
     public void deleteUser(Long id) {
@@ -62,7 +57,6 @@ public class UserServiceImp implements UserService {
             userRepository.deleteById(id);
         }
     }
-
 
     @Override
     public void saveUser(User user) {
@@ -82,6 +76,10 @@ public class UserServiceImp implements UserService {
     @Override
     public List<String> getAllUsername() { return getUsers().stream().map(User::getUsername).collect(Collectors.toList());}
 
-
-
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<User> showUser(Long id) {
+        Optional<User> userInDb = userRepository.findById(id);
+        return userInDb;
+    }
 }

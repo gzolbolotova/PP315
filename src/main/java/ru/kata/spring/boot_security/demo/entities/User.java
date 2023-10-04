@@ -12,6 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,15 +29,23 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
     @Column(name = "name")
+    @NotEmpty(message = "Name should not be empty")
+    @Size(min =2, max = 25, message = "Name should be between 2 and 25 characters")
     private String name;
+
     @Column(name = "lastname")
+    @NotEmpty(message = "Lastname should not be empty")
+    @Size(min =2, max = 25, message = "Lastname should be between 2 and 25 characters")
     private String lastname;
 
     @Column(name = "age")
+    @Min(value = 0,message = "Age should be greater than 0")
     private int age;
 
 
     @Column(name = "email", unique = true)
+    @Email
+    @NotEmpty(message = "Email should not be empty")
     private String email;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -133,8 +145,8 @@ public class User implements UserDetails {
         return roles.stream().map(role -> role.getName().replace("ROLE_", "")).collect(Collectors.joining(" "));
     }
 
-    public boolean checkRoleAdmin(Set<Role> roles) {
-        return roles.stream().map(Role::getName).collect(Collectors.toList()).contains("ROLE_ADMIN");
-    }
+   // public boolean checkRoleAdmin(Set<Role> roles) {
+    //    return roles.stream().map(Role::getName).collect(Collectors.toList()).contains("ROLE_ADMIN");
+    //}
 
 }
