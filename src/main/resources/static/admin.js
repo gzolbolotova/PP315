@@ -151,12 +151,9 @@ document.getElementById('newUserForm').addEventListener('submit', (e) => {
     e.preventDefault()
     let role = document.getElementById('role_select')
     let roles = []
-    let rolesAddUserValue = ''
     for (let i = 0; i < role.options.length; i++) {
         if (role.options[i].selected) {
-            roles.push({id: role.options[i].value, role: 'ROLE_' + role.options[i].text})
-            rolesAddUserValue += role.options[i].innerHTML
-
+            roles.push({id: role.options[i].value, role: 'ROLE_' + role.options[i].innerHTML})
         }
     }
     fetch(url, {
