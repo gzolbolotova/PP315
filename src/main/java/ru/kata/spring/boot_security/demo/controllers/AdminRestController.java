@@ -19,12 +19,12 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
-public class MyRestController {
+@RequestMapping("/api/admin")
+public class AdminRestController {
     private final UserService userService;
 
     @Autowired
-    public MyRestController(UserService userService) {
+    public AdminRestController(UserService userService) {
         this.userService = userService;
     }
 
@@ -52,8 +52,8 @@ public class MyRestController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PutMapping
-    public ResponseEntity<HttpStatus> update(@RequestBody @Valid User user) {
+    @PutMapping("/{id}")
+    public ResponseEntity<HttpStatus> update(@RequestBody @Valid User user, @PathVariable Long id) {
         userService.saveUser(user);
         return ResponseEntity.ok(HttpStatus.OK);
     }

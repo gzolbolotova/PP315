@@ -17,4 +17,6 @@ public interface UserService extends UserDetailsService {
 
     Optional<User> showUser(Long id);
 
+    User findByName(String username);
+
 }

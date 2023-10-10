@@ -12,7 +12,6 @@ import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -62,9 +61,6 @@ public class UserServiceImp implements UserService {
     public void saveUser(User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
 
-        if (userFromDB == null || user.getRoles() == null) {
-            user.setRoles(Set.of(roleRepository.getById(2L)));
-        }
         if (user.getPassword().equals("") && userFromDB != null) {
             user.setPassword(userFromDB.getPassword());
         } else {
@@ -74,12 +70,18 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public List<String> getAllUsername() { return getUsers().stream().map(User::getUsername).collect(Collectors.toList());}
+    public List<String> getAllUsername() {
+        return getUsers().stream().map(User::getUsername).collect(Collectors.toList());
+    }
 
     @Transactional(readOnly = true)
     @Override
     public Optional<User> showUser(Long id) {
         Optional<User> userInDb = userRepository.findById(id);
         return userInDb;
+    }
+
+    public User findByName(String username) {
+        return userRepository.findByUsername(username);
     }
 }
