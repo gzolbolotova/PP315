@@ -114,7 +114,6 @@ function deleteModal(id) {
             document.getElementById('deleteLastname').value = u.lastname;
             document.getElementById('deleteAge').value = u.age;
             document.getElementById('deleteEmail').value = u.email;
-            document.getElementById('deletePassword').value = u.password;
             document.getElementById('deleteRole').value = u.roles.map(function (role) {
                 return JSON.stringify(role.name).replaceAll('"', '').substring(5)
             });
