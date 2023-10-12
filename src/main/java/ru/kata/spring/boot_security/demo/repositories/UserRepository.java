@@ -6,11 +6,14 @@ import org.springframework.data.jpa.repository.Query;
 import ru.kata.spring.boot_security.demo.entities.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     @Query("Select u from User u left join fetch u.roles where u.email=:username")
     User findByUsername(String username);
 
     List<User> findAll();
+
+    Optional<User> findById(Long id);
 
 }

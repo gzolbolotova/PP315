@@ -14,22 +14,18 @@ import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class UserServiceImp implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImp(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserServiceImp(UserRepository userRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = new BCryptPasswordEncoder();
-        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -50,6 +46,7 @@ public class UserServiceImp implements UserService {
     }
 
 
+    @Transactional
     @Override
     public void deleteUser(Long id) {
         if (userRepository.findById(id).isPresent()) {
@@ -60,18 +57,14 @@ public class UserServiceImp implements UserService {
     @Override
     public void saveUser(User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
-
-        if (user.getPassword().equals("") && userFromDB != null) {
-            user.setPassword(userFromDB.getPassword());
-        } else {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user != null) {
+            if (user.getPassword().isEmpty() || user.getPassword() == null) {
+                user.setPassword(userFromDB.getPassword());
+            } else {
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+            }
+            userRepository.save(user);
         }
-        userRepository.save(user);
-    }
-
-    @Override
-    public List<String> getAllUsername() {
-        return getUsers().stream().map(User::getUsername).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

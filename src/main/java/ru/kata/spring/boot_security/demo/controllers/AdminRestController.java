@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,7 +22,7 @@ import java.util.Optional;
 public class AdminRestController {
     private final UserService userService;
 
-    @Autowired
+
     public AdminRestController(UserService userService) {
         this.userService = userService;
     }
@@ -39,10 +38,8 @@ public class AdminRestController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> createUser(@RequestBody User user) {
-        if (!userService.getAllUsername().contains(user.getUsername())) {
-            userService.saveUser(user);
-        }
+    public ResponseEntity<HttpStatus> createUser(@RequestBody @Valid User user) {
+        userService.saveUser(user);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -54,6 +51,7 @@ public class AdminRestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<HttpStatus> update(@RequestBody @Valid User user, @PathVariable Long id) {
+        user.setId(id);
         userService.saveUser(user);
         return ResponseEntity.ok(HttpStatus.OK);
     }

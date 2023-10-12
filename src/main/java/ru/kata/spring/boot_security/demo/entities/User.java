@@ -26,7 +26,10 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+
     @Column(name = "password")
+    @NotEmpty(message = "Password should not be empty")
     private String password;
     @Column(name = "name")
     @NotEmpty(message = "Name should not be empty")
@@ -144,9 +147,5 @@ public class User implements UserDetails {
     public String rolesToString(Set<Role> roles) {
         return roles.stream().map(role -> role.getName().replace("ROLE_", "")).collect(Collectors.joining(" "));
     }
-
-   // public boolean checkRoleAdmin(Set<Role> roles) {
-    //    return roles.stream().map(Role::getName).collect(Collectors.toList()).contains("ROLE_ADMIN");
-    //}
 
 }

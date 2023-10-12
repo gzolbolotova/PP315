@@ -62,6 +62,9 @@ function editModal(id) {
 }
 
 
+
+
+
 async function editUser() {
     const form_ed = document.getElementById('modalEdit');
 

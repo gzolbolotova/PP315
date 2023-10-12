@@ -13,8 +13,6 @@ public interface UserService extends UserDetailsService {
 
     void saveUser(User user);
 
-    List<String> getAllUsername();
-
     Optional<User> showUser(Long id);
 
     User findByName(String username);
