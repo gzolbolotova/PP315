@@ -8,13 +8,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.entities.User;
-import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -28,6 +26,7 @@ public class UserServiceImp implements UserService {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
+    @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
@@ -54,6 +53,7 @@ public class UserServiceImp implements UserService {
         }
     }
 
+    @Transactional
     @Override
     public void saveUser(User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
@@ -74,6 +74,7 @@ public class UserServiceImp implements UserService {
         return userInDb;
     }
 
+    @Transactional
     public User findByName(String username) {
         return userRepository.findByUsername(username);
     }
